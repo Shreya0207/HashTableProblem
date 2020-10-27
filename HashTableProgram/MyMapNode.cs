@@ -8,12 +8,14 @@ namespace HashTableProgram
     {
         private readonly int size;
         private readonly LinkedList<KeyValue<K, V>>[] items;
+        //Constructor to initialize array of given size
         public MyMapNode(int size)
         {
             this.size = size;
             this.items = new LinkedList<KeyValue<K, V>>[size];
         }
-       protected LinkedList<KeyValue<K, V>> GetLinkedList(int position)
+        //To get LinkedList at the particular index
+        protected LinkedList<KeyValue<K, V>> GetLinkedList(int position)
         {
             LinkedList<KeyValue<K, V>> linkedList = items[position];
             if (linkedList == null)
@@ -69,7 +71,7 @@ namespace HashTableProgram
                 linkedList.Remove(foundItem);
             }
         }
-        public void GetFrequency(V value)
+        public int GetFrequency(V value)
         {
             int frequency = 0;
             foreach (LinkedList<KeyValue<K, V>> list in items)
@@ -84,13 +86,29 @@ namespace HashTableProgram
                         frequency++;
                 }
             }
-            Console.WriteLine("Frequency of {0} is {1}", value, frequency);
+            Console.WriteLine("Value: {0} \t Frequency: {1}", value, frequency);
+            return frequency;
+        }
+        public void DisplayFrequency()
+        {
+            foreach (LinkedList<KeyValue<K, V>> list in items)
+            {
+                if (list == null)
+                    continue;
+                foreach (KeyValue<K, V> obj in list)
+                {
+                    if (obj.Equals(null))
+                        continue;
+                    else
+                        obj.frequency = GetFrequency(obj.Value);
+                }
+            }
         }
     }
-    public struct KeyValue<K, V>
+    public class KeyValue<K, V>
     {
         public K Key { get; set; }
         public V Value { get; set; }
+        public int frequency { get; set; }
     }
 }
-
